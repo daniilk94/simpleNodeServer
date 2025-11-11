@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
     "start": "node app.js",
     "dev": "nodemon app.js"
   },

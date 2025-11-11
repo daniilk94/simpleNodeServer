@@ -1,16 +1,10 @@
 import app from "../api/mainapp.js";
 import request from "supertest";
-import express from "express";
-import router from "../api/data.js";
-
-const testApp = express();
-testApp.use(express.json());
-testApp.use("/data", router);
 
 describe("Test GET requests", () => {
   test("Get /data (should return all users)", async () => {
     const response = await request(app).get("/data");
-    expect(response.status).toEqual(200);
+    expect(response.status).toBe(200);
   });
 
   test("Get /data/id (should return user with certain id)", async () => {
@@ -54,12 +48,12 @@ describe("Test POST requests", () => {
 
 describe("Test DELETE request", () => {
   test("Delete /data/id (deletes user with certain id. returns status 204)", async () => {
-    const response = await request(app).delete("/data/4");
+    const response = await request(app).delete("/data/5");
     expect(response.status).toBe(204);
   });
 
   test("Delete /data/id (if id doesnt exists, returns 404)", async () => {
-    const response = await request(app).delete("/data/444");
+    const response = await request(app).delete("/data/555");
     expect(response.status).toBe(404);
   });
 });
@@ -77,7 +71,7 @@ describe("Test PUT request", () => {
   test("Put /data/id when id does not exist(create new user)", async () => {
     const newData = { forename: "Diego", surname: "Maradona" };
     const response = await request(app)
-      .put("/data/15")
+      .put("/data/5")
       .send(newData)
       .set("content-type", "application/json");
     expect(response.status).toBe(201);
