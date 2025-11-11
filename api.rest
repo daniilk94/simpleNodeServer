@@ -1,0 +1,75 @@
+### test GET /
+GET http://localhost:3000
+
+### test GET /index
+GET http://localhost:3000/index
+
+### test GET /data
+GET http://localhost:3000/data
+
+### test GET non-existing url
+GET http://localhost:3000/qwe2ewfg
+
+### test GET /data/id
+GET http://localhost:3000/data/2
+
+### test GET /data/non-existing ID
+GET http://localhost:3000/data/522
+
+### test POST /data with incorrect Content-Type
+POST http://localhost:3000/data
+Content-Type: text/plain
+
+{
+  "forename": "Michael",
+  "surname": "Owen" 
+}
+
+### test POST /data with correct Content-Type
+POST http://localhost:3000/data
+Content-Type: application/json
+
+{
+  "forename": "David",
+  "surname": "Backham" 
+}
+
+
+### test DELETE /data/id
+DELETE http://localhost:3000/data/5
+
+### test PUT /data/id with wrong datatype
+PUT http://localhost:3000/data/5
+Content-Type: text/plain
+
+{
+  "forename": "Diego",
+  "surname": "Maradona" 
+}
+### test PUT /data/id when id is not found and correct datatype
+PUT http://localhost:3000/data/5
+Content-Type: application/json
+
+{
+  "forename": "Diego",
+  "surname": "Maradona" 
+}
+
+### test PUT /data/id when id exists so we update
+PUT http://localhost:3000/data/5
+Content-Type: application/json
+
+{
+  "forename": "Cristiano",
+  "surname": "Ronaldo" 
+}
+
+### test data/search
+POST http://localhost:3000/data/search
+Content-Type: application/json
+
+{
+  "forename": "David"
+}
+
+
