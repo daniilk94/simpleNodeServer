@@ -55,7 +55,7 @@ Content-Type: application/json
   "surname": "Maradona" 
 }
 
-### test PUT /data/id when id exists so we update
+### test PUT /data/id when id exists so we update (depends on previous test)
 PUT http://localhost:3000/data/5
 Content-Type: application/json
 
@@ -64,7 +64,16 @@ Content-Type: application/json
   "surname": "Ronaldo" 
 }
 
-### test data/search
+### test data/search (returns 200)
+POST http://localhost:3000/data/search
+Content-Type: application/json
+
+{
+  "forename": "Frank"
+}
+
+
+### test data/search (404 if Backham wasnt created, 200 if it was)
 POST http://localhost:3000/data/search
 Content-Type: application/json
 
