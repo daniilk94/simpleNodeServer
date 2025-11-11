@@ -1,0 +1,8 @@
+### test GET /
+GET http://localhost:3000
+### test GET /index
+GET http://localhost:3000/index
+### test GET /data
+GET http://localhost:3000/data
+### test GET non-existing url
+GET http://localhost:3000/qwe2ewfg
