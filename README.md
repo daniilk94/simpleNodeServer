@@ -16,6 +16,14 @@ The API is documented using Swagger.
 
 5) Open the homepage in your browser: http://localhost:3000/
 
+## Testing
+
+* Run automated tests with: **npm run test**
+
+* You can also use the **api.rest** file to manually send requests to the server (using VS Code REST client extension)
+
+* Endpoints can also be tested directly via **SwaggerUI**
+
 ### Other Resources:
 
 **SwaggerUI documentation:** http://localhost:3000/doc 
