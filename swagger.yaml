@@ -1,0 +1,218 @@
+openapi: 3.0.4
+info:
+  title: simpleNodeServer
+  version: 0.0.2
+  description: simpleNodeServer demonstrates basic CRUD operations
+servers:
+  - url: http://localhost:3000
+paths:
+  /data:
+    get:
+      tags:
+        - Simple DEMO of CRUD operations
+      summary: Get all data
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    forename:
+                      type: string
+                      example: John
+                    surname:
+                      type: string
+                      example: Johnes
+    post:
+      tags:
+        - Simple DEMO of CRUD operations
+      summary: Create new data
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                forename:
+                  type: string
+                  example: David
+                surname:
+                  type: string
+                  example: Backham
+      responses:
+        "201":
+          description: Data created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 5
+                  forename:
+                    type: string
+                    example: David
+                  surname:
+                    type: string
+                    example: Backham
+        "415":
+          description: Unsupported Media Type
+  /data/{id}:
+    get:
+      tags:
+        - Simple DEMO of CRUD operations
+      summary: Find data by ID
+      description: Returns a single data
+      parameters:
+        - name: id
+          in: path
+          description: ID of data to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 2
+                  forename:
+                    type: string
+                    example: Dana
+                  surname:
+                    type: string
+                    example: White
+        "404":
+          description: Data Not Found
+    delete:
+      tags:
+        - Simple DEMO of CRUD operations
+      summary: Delete data by ID
+      description: Delete data
+      parameters:
+        - name: id
+          in: path
+          description: ID of data to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "204":
+          description: Data has been deleted
+        "404":
+          description: Data Not Found
+    put:
+      tags:
+        - Simple DEMO of CRUD operations
+      summary: Update data by ID
+      description: Update
+      parameters:
+        - name: id
+          in: path
+          description: ID of data to update
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                forename:
+                  type: string
+                  example: David
+                surname:
+                  type: string
+                  example: Backham
+      responses:
+        "201":
+          description: Data created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 5
+                  forename:
+                    type: string
+                    example: David
+                  surname:
+                    type: string
+                    example: Backham
+        "200":
+          description: Data updated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 5
+                  forename:
+                    type: string
+                    example: Diego
+                  surname:
+                    type: string
+                    example: Maradona
+        "415":
+          description: Unsupported Data Type
+  /data/search:
+    post:
+      tags:
+        - Search query by forename
+      summary: Search for data by forename
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                forename:
+                  type: string
+                  example: David
+      responses:
+        "200":
+          description: Return data with given forename
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 5
+                    forename:
+                      type: string
+                      example: David
+                    surname:
+                      type: string
+                      example: Backham
+        "404":
+          description: Data Not Found
+        "415":
+          description: Unsupported Media Type
