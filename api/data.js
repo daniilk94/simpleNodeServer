@@ -47,7 +47,8 @@ router.post("/", (req, res) => {
   }
   const forename = req.body.forename;
   const surname = req.body.surname;
-  const newUser = { id: data.length + 1, forename, surname };
+  const newId = data.length > 0 ? data[data.length - 1].id + 1 : 1;
+  const newUser = { id: newId, forename, surname };
 
   data.push(newUser);
   res.status(201).json({ New_user: newUser });
@@ -79,7 +80,8 @@ router.put("/:id", (req, res) => {
     data[userIndex].surname = surname;
     res.status(200).json({ Updated_user: data[userIndex] });
   } else {
-    const newUser = { id: data.length + 1, forename, surname };
+    const newId = data.length > 0 ? data[data.length - 1].id + 1 : 1;
+    const newUser = { id: newId, forename, surname };
     data.push(newUser);
     res.status(201).json({ New_user: newUser });
   }

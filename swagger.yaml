@@ -2,9 +2,32 @@ openapi: 3.0.4
 info:
   title: simpleNodeServer
   version: 0.0.2
-  description: simpleNodeServer demonstrates basic CRUD operations
 servers:
   - url: http://localhost:3000
+components:
+  schemas:
+    user_get:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 1
+        forename:
+          type: string
+          example: John
+        surname:
+          type: string
+          example: Johnes
+    user_create:
+      type: object
+      properties:
+        forename:
+          type: string
+          example: John
+        surname:
+          type: string
+          example: Johnes
 paths:
   /data:
     get:
@@ -19,17 +42,9 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 1
-                    forename:
-                      type: string
-                      example: John
-                    surname:
-                      type: string
-                      example: Johnes
+                  $ref: "#/components/schemas/user_get"
+        "404":
+          description: Data Not Found
     post:
       tags:
         - Simple DEMO of CRUD operations
@@ -39,31 +54,14 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                forename:
-                  type: string
-                  example: David
-                surname:
-                  type: string
-                  example: Backham
+              $ref: "#/components/schemas/user_create"
       responses:
         "201":
           description: Data created
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    example: 5
-                  forename:
-                    type: string
-                    example: David
-                  surname:
-                    type: string
-                    example: Backham
+                $ref: "#/components/schemas/user_get"
         "415":
           description: Unsupported Media Type
   /data/{id}:
@@ -86,17 +84,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    example: 2
-                  forename:
-                    type: string
-                    example: Dana
-                  surname:
-                    type: string
-                    example: White
+                $ref: "#/components/schemas/user_get"
         "404":
           description: Data Not Found
     delete:
@@ -135,47 +123,20 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                forename:
-                  type: string
-                  example: David
-                surname:
-                  type: string
-                  example: Backham
+              $ref: "#/components/schemas/user_create"
       responses:
         "201":
           description: Data created
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    example: 5
-                  forename:
-                    type: string
-                    example: David
-                  surname:
-                    type: string
-                    example: Backham
+                $ref: "#/components/schemas/user_get"
         "200":
           description: Data updated
           content:
             application/json:
               schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    example: 5
-                  forename:
-                    type: string
-                    example: Diego
-                  surname:
-                    type: string
-                    example: Maradona
+                $ref: "#/components/schemas/user_get"
         "415":
           description: Unsupported Data Type
   /data/search:
@@ -192,7 +153,7 @@ paths:
               properties:
                 forename:
                   type: string
-                  example: David
+                  example: John
       responses:
         "200":
           description: Return data with given forename
@@ -201,17 +162,7 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 5
-                    forename:
-                      type: string
-                      example: David
-                    surname:
-                      type: string
-                      example: Backham
+                  $ref: "#/components/schemas/user_get"
         "404":
           description: Data Not Found
         "415":
