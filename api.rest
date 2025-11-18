@@ -6,13 +6,14 @@ GET http://localhost:3000/index
 
 ### test GET /data
 GET http://localhost:3000/data
+Authorization: Bearer
 
 ### test GET non-existing url
 GET http://localhost:3000/qwe2ewfg
 
 ### test GET /data/id
 GET http://localhost:3000/data/2
-
+Authorization: Bearer 
 ### test GET /data/non-existing ID
 GET http://localhost:3000/data/522
 
@@ -28,6 +29,7 @@ Content-Type: text/plain
 ### test POST /data with correct Content-Type
 POST http://localhost:3000/data
 Content-Type: application/json
+Authorization: Bearer 
 
 {
   "forename": "David",
@@ -37,6 +39,7 @@ Content-Type: application/json
 
 ### test DELETE /data/id
 DELETE http://localhost:3000/data/5
+Authorization: Bearer 
 
 ### test PUT /data/id with wrong datatype
 PUT http://localhost:3000/data/5
@@ -49,6 +52,7 @@ Content-Type: text/plain
 ### test PUT /data/id when id is not found and correct datatype
 PUT http://localhost:3000/data/5
 Content-Type: application/json
+Authorization: Bearer 
 
 {
   "forename": "Diego",
@@ -58,7 +62,7 @@ Content-Type: application/json
 ### test PUT /data/id when id exists so we update (depends on previous test)
 PUT http://localhost:3000/data/5
 Content-Type: application/json
-
+Authorization: Bearer 
 {
   "forename": "Cristiano",
   "surname": "Ronaldo" 
@@ -67,6 +71,7 @@ Content-Type: application/json
 ### test data/search (returns 200)
 POST http://localhost:3000/data/search
 Content-Type: application/json
+Authorization: Bearer 
 
 {
   "forename": "Frank"
@@ -76,9 +81,17 @@ Content-Type: application/json
 ### test data/search (404 if Backham wasnt created, 200 if it was)
 POST http://localhost:3000/data/search
 Content-Type: application/json
+Authorization: Bearer 
 
 {
   "forename": "David"
 }
 
+### test post returned token can be used to test with /data endpoints
+POST http://localhost:3000/login
+Content-Type: application/json
 
+{
+    "username": "dm",
+    "password": "pass1"
+}

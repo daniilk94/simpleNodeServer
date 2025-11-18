@@ -1,10 +1,15 @@
 openapi: 3.0.4
 info:
   title: simpleNodeServer
-  version: 0.0.2
+  version: 0.0.3
 servers:
   - url: http://localhost:3000
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     user_get:
       type: object
@@ -28,12 +33,20 @@ components:
         surname:
           type: string
           example: Johnes
+    error_429:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Rate limit exceeded. Try again later
 paths:
   /data:
     get:
       tags:
         - Simple DEMO of CRUD operations
       summary: Get all data
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Successful response
@@ -43,12 +56,22 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/user_get"
+        "401":
+          description: Unauthorized user. Please login
         "404":
           description: Data Not Found
+        "429":
+          description: Too Many Requests - You have exceeded the rate limit
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error_429"
     post:
       tags:
         - Simple DEMO of CRUD operations
       summary: Create new data
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -62,13 +85,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/user_get"
+        "401":
+          description: Unauthorized user. Please login
         "415":
           description: Unsupported Media Type
+        "429":
+          description: Too Many Requests - You have exceeded the rate limit
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error_429"
   /data/{id}:
     get:
       tags:
         - Simple DEMO of CRUD operations
       summary: Find data by ID
+      security:
+        - bearerAuth: []
       description: Returns a single data
       parameters:
         - name: id
@@ -85,12 +118,22 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/user_get"
+        "401":
+          description: Unauthorized user. Please login
         "404":
           description: Data Not Found
+        "429":
+          description: Too Many Requests - You have exceeded the rate limit
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error_429"
     delete:
       tags:
         - Simple DEMO of CRUD operations
       summary: Delete data by ID
+      security:
+        - bearerAuth: []
       description: Delete data
       parameters:
         - name: id
@@ -103,12 +146,22 @@ paths:
       responses:
         "204":
           description: Data has been deleted
+        "401":
+          description: Unauthorized user. Please login
         "404":
           description: Data Not Found
+        "429":
+          description: Too Many Requests - You have exceeded the rate limit
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error_429"
     put:
       tags:
         - Simple DEMO of CRUD operations
       summary: Update data by ID
+      security:
+        - bearerAuth: []
       description: Update
       parameters:
         - name: id
@@ -137,13 +190,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/user_get"
+        "401":
+          description: Unauthorized user. Please login
         "415":
           description: Unsupported Data Type
+        "429":
+          description: Too Many Requests - You have exceeded the rate limit
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error_429"
   /data/search:
     post:
       tags:
         - Search query by forename
       summary: Search for data by forename
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -163,7 +226,54 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/user_get"
+        "401":
+          description: Unauthorized user. Please login
         "404":
           description: Data Not Found
         "415":
           description: Unsupported Media Type
+        "429":
+          description: Too Many Requests - You have exceeded the rate limit
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/error_429"
+  /login:
+    post:
+      tags:
+        - Login API Call
+      summary: Login and get token
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: dm
+                password:
+                  type: string
+                  example: pass1
+      responses:
+        "200":
+          description: Login completed. Token returned
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    example: dm
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+                    example: Bearer
+                  expires_in:
+                    type: string
+                    example: 1h
+        "401":
+          description: Login failed
